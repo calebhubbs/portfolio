@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Oswald:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+/* HOME PAGE  */
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    border: 0;
 }
 
 html {
@@ -12,28 +14,13 @@ html {
 
 body {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     background: black;
-    overflow: hidden;
     font-family: Oswald !important;
-    z-index: 1;
 }
 
-.canvas {
-    position: absolute;
-    top: 0;
-    right: 0; 
-    left: 0;
-    bottom: 0;
-    z-index: 0;
-}
-
-h1 {
-    color: white;
-}
-
-*/::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 18px;
 }
 
@@ -53,15 +40,24 @@ h1 {
     background-color: #555;
 }
 
-.landing {
-    min-height: 100vh;
-    background-size: cover;
-    padding: 0rem 5rem;
-    z-index: 10;
+::-webkit-scrollbar {
+    width: 18px;
 }
 
-nav {
-    height: 100vh;
+.landing {
+    background-size: cover;
+    padding: 0rem 5rem;
+}
+
+.social {
+    color: whitesmoke;
+}
+
+.social:hover {
+    color: crimson;
+}
+
+#nav {
     width: 160px;
     position: fixed;
     z-index: 2;
@@ -70,35 +66,24 @@ nav {
     overflow-x: hidden;
 }
 
-#info {
-    position: absolute;
-    top: 10px;
-    width: 100%;
-    text-align: center;
-    z-index: 10;
-    display: block;
-    color: white;
+.img-fluid {
+    height: 60%;
 }
 
-#logo a {
-    color: white;
-    font-family: 'Ephesis', cursive;
-}
-
-#logo a:hover {
-    text-decoration: none;
-    color: slateblue;
+.canvas {
+    position: fixed;
+    z-index: 0;
 }
 
 .big-text {
-    z-index: 1;
+    z-index: 100;
     color: white;
-    position: absolute;
     font-family: 'Oswald';
     top: 40%;
     left: 50%;
     transform: translate(-50%, -30%);
     text-align: center;
+    position: absolute;
 }
 
 .big-text h1 {
@@ -109,78 +94,20 @@ nav {
     font-size: 1rem;
 }
 
-.hidden {
-    display: none !important;
-}
-
-.intro {
-    background-color: black;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden
-}
-
-hr {
-    background: white;
-}
-
-.intro-text {
-    color: white;
-    font-family: 'Oswald', sans-serif;
-}
-
 section {
-    min-height: 100vh;
+    height: 100vh;
     margin: 40 0px;
-    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
 }
 
-.projects {
-    padding-bottom: 200px !important;
-}
-
-.svg {
-    z-index: 2;
-    max-width: 600px;
-    overflow: visible;
-    margin-right: auto;
-    margin-top: 40vh;
-}
-
-.svg>text {
-    fill: white;
-    font-size: 15px;
-}
-
-.ball {
-    fill: white;
-    /* visibility: hidden; */
-}
-
-.line {
-    fill: none;
-    stroke: white;
-    stroke-width: 2px;
-}
-
-@media screen and (max-width: 800px) {
-    .svg {
-        max-width: 70%;
-    }
-    .svg>text {
-        fill: white;
-        font-size: 40px !important;
-    }
+.desc {
+    font-size: 1.3rem;
+    will-change: auto;
+    transition: all 500ms;
+    font-weight: 500;
 }
 
 /* About */
@@ -189,6 +116,7 @@ section {
     color: white;
     text-align: center;
     font-size: 30px;
+    z-index: 100;
 }
 
 .content p {
@@ -197,47 +125,20 @@ section {
     font-size: 22px
 }
 
-.email {
-    color: white;
-}
-
-.email:hover {
-    text-decoration: none;
-    color: white;
-}
-
-.contactme {
-    display: inline-flex;
-}
-
-.contactme span {
-    will-change: transform;
-    transition: all 250ms;
-}
-
-.contactme span:hover {
-    transform: translateY(-10px);
-    color: slateblue;
-}
-
-.space {
-    padding: 0px 5px;
-}
-
 .title {
     font-weight: 500;
     font-size: 40px;
 }
 
-.desc {
-    /* font-size: 2.5rem; */
-    will-change: transform;
-    transition: all 500ms;
+.about p {
+    letter-spacing: 3px;
 }
 
-.desc:hover {
-    color: slateblue;
+.about h2 {
+    padding: 10px 10px;
 }
+
+/* THIS IS THE BLINKING CURSOR WITH TEXT  */
 
 .blinking-cursor {
     font-weight: 300;
@@ -294,16 +195,6 @@ section {
     }
 }
 
-/* About */
-
-/* Skills */
-
-.skills {
-    color: white;
-}
-
-/* Skills */
-
 @media (max-width: 800px) {
     section {
         overflow-x: hidden;
@@ -348,4 +239,22 @@ section {
     .projectTitle {
         margin-top: 200px;
     }
+}
+
+/* CONTACT  */
+
+.contact {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100;
+}
+
+.contact p {
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    transition: 0.5s;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
 }

@@ -1,63 +1,92 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.118.3/build/three.module.js";
+gsap.registerPlugin(ScrollTrigger);
+gsap.defaults({ ease: "none" });
 
+var done = false;
 
-let scene, camera, renderer, starGeo, stars;
-function init() {
-  //create scene object
-  scene = new THREE.Scene();
+// $(document).ready(()=>{
 
-  //setup camera with facing upward
-  camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    1,
-    1000
-  );
-  camera.position.z = 1;
-  camera.rotation.x = Math.PI / 2;
+animations();
+// });
 
-  //setup renderer
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+function animations() {
+  var intro = gsap.timeline({
+    onComplete: function () {
+      $(".intro").addClass("hidden");
+      type();
+    },
+  });
+  var links = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".about",
+      toggleActions: "restart none restart none",
+      start: "top center",
+      markers: false,
+    },
+  });
+  links.from(".content > a", {
+    opacity: 0,
+    delay: 0.5,
+    duration: 1.5,
+    x: -100,
+    stagger: 0.6,
+  });
+}
 
-  starGeo = new THREE.Geometry();
-  for (let i = 0; i < 6000; i++) {
-    let star = new THREE.Vector3(
-      //this is the number of stars
-      Math.random() * 400 - 200,
-      Math.random() * 400 - 200,
-      Math.random() * 400 - 200
-    );
-    star.velocity = 0.005;
-    star.acceleration = 0.005;
-    starGeo.vertices.push(star);
+var TxtType = function (el, toRotate, period) {
+  this.toRotate = toRotate;
+  this.el = el;
+  this.loopNum = 0;
+  this.period = parseInt(period, 10) || 2000;
+  this.txt = "";
+  this.tick();
+  this.isDeleting = false;
+};
+
+TxtType.prototype.tick = function () {
+  var i = this.loopNum % this.toRotate.length;
+  var fullTxt = this.toRotate[i];
+
+  if (this.isDeleting) {
+    this.txt = fullTxt.substring(0, this.txt.length - 1);
+  } else {
+    this.txt = fullTxt.substring(0, this.txt.length + 1);
   }
 
-  let sprite = new THREE.TextureLoader().load("/src/textures/stars.png");
-  let starMaterial = new THREE.PointsMaterial({
-    color: 0xaaaaaa,
-    size: 0.5,
-    map: sprite,
-  });
-  stars = new THREE.Points(starGeo, starMaterial);
-  scene.add(stars);
+  this.el.innerHTML = '<span class="wrap">' + this.txt + "</span>";
 
-  animate();
-}
-//rendering loop
-function animate() {
-  starGeo.vertices.forEach((p) => {
-    p.velocity += p.acceleration;
-    p.y -= p.velocity;
+  var that = this;
+  var delta = 200 - Math.random() * 100;
 
-    if (p.y < -100) {
-      p.y = 100;
-      p.velocity = 0;
+  if (this.isDeleting) {
+    delta /= 2;
+  }
+
+  if (!this.isDeleting && this.txt === fullTxt) {
+    delta = this.period;
+    this.isDeleting = true;
+  } else if (this.isDeleting && this.txt === "") {
+    this.isDeleting = false;
+    this.loopNum++;
+    delta = 500;
+  }
+
+  setTimeout(function () {
+    that.tick();
+  }, delta);
+};
+
+function type() {
+  var elements = document.getElementsByClassName("desc");
+  for (var i = 0; i < elements.length; i++) {
+    var toRotate = elements[i].getAttribute("data-type");
+    var period = elements[i].getAttribute("data-period");
+    if (toRotate) {
+      new TxtType(elements[i], JSON.parse(toRotate), period);
     }
-  });
-  starGeo.verticesNeedUpdate = true;
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
+  }
+  // INJECT CSS
+  var css = document.createElement("style");
+  css.type = "text/css";
+  css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+  document.body.appendChild(css);
 }
-init();
